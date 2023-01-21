@@ -1,0 +1,73 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #744b44;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#grid {
+  display: grid;
+  grid-template-rows: repeat(8, 1fr);
+  width: 500px;
+  height: 500px;
+  border: 5px solid black;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.row:nth-child(odd) .square:nth-child(even),
+.row:nth-child(even) .square:nth-child(odd) {
+  background-color: #dc8c45;
+}
+
+.row:nth-child(odd) .square:nth-child(odd),
+.row:nth-child(even) .square:nth-child(even) {
+  background-color: #ffcfa0;
+}
+
+img {
+  width: 80%;
+  height: 80%;
+  transition: all 1s ease-in-out;
+}
+
+.white {
+  filter: invert(85%) sepia(93%) saturate(0%) hue-rotate(222deg)
+    brightness(106%) contrast(109%) drop-shadow(-1px -1px 0px black)
+    drop-shadow(2px -1px 0px black) drop-shadow(2px 2px 0px black)
+    drop-shadow(-1px 2px 0px black);
+}
+
+.selected {
+  transform: translateY(-5px);
+}
+
+.selected:not(.white) {
+  filter: drop-shadow(0px 0px 4px rgb(117, 122, 132));
+}
+
+.selected.white {
+  filter: invert(85%) sepia(93%) saturate(0%) hue-rotate(222deg)
+    brightness(106%) contrast(109%) drop-shadow(-1px -1px 0px black)
+    drop-shadow(2px -1px 0px black) drop-shadow(2px 2px 0px black)
+    drop-shadow(-1px 2px 0px black) drop-shadow(0px 0px 4px rgb(117, 122, 132));
+}
