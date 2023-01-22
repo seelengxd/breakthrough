@@ -41,6 +41,10 @@ function App() {
   }
 
   function selectHelper(i, j) {
+    if (i == selectedPiece[0] && j == selectedPiece[1]) {
+      deselect();
+      return;
+    }
     const piece = grid[i][j];
     let moves;
     switch (piece) {
@@ -69,6 +73,10 @@ function App() {
     newGrid[selectedPiece[0]][selectedPiece[1]] = "";
     newGrid[i][j] = piece;
     setGrid(newGrid);
+    deselect();
+  }
+
+  function deselect() {
     setSelectedPiece([-1, -1]);
     setMoveOptions([]);
   }
@@ -77,9 +85,9 @@ function App() {
     <main>
       <div id="grid">
         {grid.map((row, i) => (
-          <div className="row">
+          <div className="row" key={i}>
             {row.map((pawn, j) => (
-              <div className="square">
+              <div className="square" key={i * 8 + j}>
                 <Pawn
                   index={i * 8 + j}
                   pawn={pawn}
