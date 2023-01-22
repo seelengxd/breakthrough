@@ -18,6 +18,7 @@ function App() {
   const [selectedPiece, setSelectedPiece] = useState([-1, -1]);
   const [moveOptions, setMoveOptions] = useState([]);
   const [turn, setTurn] = useState("W");
+  const [winner, setWinner] = useState("");
 
   function availableMoves(i, j, isBlack) {
     // assumption: this function won't be called after a win
@@ -78,7 +79,12 @@ function App() {
     newGrid[i][j] = piece;
     setGrid(newGrid);
     deselect();
-    changeTurn();
+    if (check_win(i)) {
+      setTurn(null);
+      setWinner(piece);
+    } else {
+      changeTurn();
+    }
   }
 
   function deselect() {
@@ -90,9 +96,13 @@ function App() {
     setTurn(turn === "W" ? "B" : "W");
   }
 
+  function check_win(i) {
+    return i === 0 || i === SIZE - 1;
+  }
+
   return (
     <main>
-      <h1>Turn: {turn}</h1>
+      {winner ? <h1>Winner: {winner}</h1> : <h1>Turn: {turn}</h1>}
       <div id="grid">
         {grid.map((row, i) => (
           <div className="row" key={i}>
