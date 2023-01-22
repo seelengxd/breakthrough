@@ -17,6 +17,7 @@ function App() {
   ]);
   const [selectedPiece, setSelectedPiece] = useState([-1, -1]);
   const [moveOptions, setMoveOptions] = useState([]);
+  const [turn, setTurn] = useState("W");
 
   function availableMoves(i, j, isBlack) {
     // assumption: this function won't be called after a win
@@ -43,6 +44,9 @@ function App() {
   function selectHelper(i, j) {
     if (i == selectedPiece[0] && j == selectedPiece[1]) {
       deselect();
+      return;
+    }
+    if (grid[i][j] != turn) {
       return;
     }
     const piece = grid[i][j];
@@ -74,6 +78,7 @@ function App() {
     newGrid[i][j] = piece;
     setGrid(newGrid);
     deselect();
+    changeTurn();
   }
 
   function deselect() {
@@ -81,8 +86,13 @@ function App() {
     setMoveOptions([]);
   }
 
+  function changeTurn() {
+    setTurn(turn === "W" ? "B" : "W");
+  }
+
   return (
     <main>
+      <h1>Turn: {turn}</h1>
       <div id="grid">
         {grid.map((row, i) => (
           <div className="row" key={i}>

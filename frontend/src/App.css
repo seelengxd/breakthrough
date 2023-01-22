@@ -10,9 +10,15 @@ body {
 
 main {
   display: flex;
+  flex-direction: column;
+  gap: 20px;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+}
+
+h1 {
+  color: white;
 }
 
 #grid {
