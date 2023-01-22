@@ -32,15 +32,16 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
-.row:nth-child(odd) .square:nth-child(even),
-.row:nth-child(even) .square:nth-child(odd) {
+.row:nth-of-type(odd) .square:nth-of-type(even),
+.row:nth-of-type(even) .square:nth-of-type(odd) {
   background-color: #dc8c45;
 }
 
-.row:nth-child(odd) .square:nth-child(odd),
-.row:nth-child(even) .square:nth-child(even) {
+.row:nth-of-type(odd) .square:nth-of-type(odd),
+.row:nth-of-type(even) .square:nth-of-type(even) {
   background-color: #ffcfa0;
 }
 
