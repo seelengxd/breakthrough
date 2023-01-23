@@ -20,7 +20,7 @@ function App() {
   const [turn, setTurn] = useState("W");
   const [winner, setWinner] = useState("");
 
-  function availableMoves(i, j, isBlack) {
+  function getAvailableMoves(i, j, isBlack) {
     // assumption: this function won't be called after a win
     const i_difference = isBlack ? 1 : -1;
 
@@ -29,7 +29,7 @@ function App() {
         [i_difference + i, j - 1],
         [i_difference + i, j + 1],
       ],
-      ...[grid[i_difference + i][j] == "" ? [i_difference + i, j] : []],
+      ...[grid[i_difference + i][j] === "" ? [i_difference + i, j] : []],
     ];
 
     return positions.filter(
@@ -38,29 +38,31 @@ function App() {
         pos[0] < SIZE &&
         0 <= pos[1] &&
         pos[1] < SIZE &&
-        grid[pos[0]][pos[1]] != (isBlack ? "B" : "W")
+        grid[pos[0]][pos[1]] !== (isBlack ? "B" : "W")
     );
   }
 
-  function selectHelper(i, j) {
-    if (i == selectedPiece[0] && j == selectedPiece[1]) {
+  function select(i, j) {
+    if (i === selectedPiece[0] && j === selectedPiece[1]) {
       deselect();
       return;
     }
-    if (grid[i][j] != turn) {
+    if (grid[i][j] !== turn) {
       return;
     }
     const piece = grid[i][j];
     let moves;
     switch (piece) {
       case "W":
-        moves = availableMoves(i, j, false);
+        moves = getAvailableMoves(i, j, false);
         break;
       case "B":
-        moves = availableMoves(i, j, true);
+        moves = getAvailableMoves(i, j, true);
         break;
       case "":
         return;
+      default:
+        console.error(`Invalid piece in grid: ${piece}`);
     }
     setSelectedPiece([i, j]);
     setMoveOptions(moves);
@@ -79,7 +81,7 @@ function App() {
     newGrid[i][j] = piece;
     setGrid(newGrid);
     deselect();
-    if (check_win(i)) {
+    if (checkWin(i)) {
       setTurn(null);
       setWinner(piece);
     } else {
@@ -96,7 +98,7 @@ function App() {
     setTurn(turn === "W" ? "B" : "W");
   }
 
-  function check_win(i) {
+  function checkWin(i) {
     return i === 0 || i === SIZE - 1;
   }
 
@@ -112,7 +114,7 @@ function App() {
                   index={i * 8 + j}
                   pawn={pawn}
                   selected={[i, j].toString() === selectedPiece.toString()}
-                  handleClick={() => selectHelper(i, j)}
+                  handleClick={() => select(i, j)}
                 ></Pawn>
                 {isMoveOption(i, j) && (
                   <CircleIcon
