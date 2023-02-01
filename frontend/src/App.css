@@ -78,3 +78,8 @@ img {
     drop-shadow(2px -1px 0px black) drop-shadow(2px 2px 0px black)
     drop-shadow(-1px 2px 0px black) drop-shadow(0px 0px 4px rgb(117, 122, 132));
 }
+
+#buttons {
+  display: flex;
+  gap: 5rem;
+}

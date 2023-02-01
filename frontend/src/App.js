@@ -2,6 +2,7 @@ import "./App.css";
 import { useState } from "react";
 import Pawn from "./Pawn";
 import CircleIcon from "@mui/icons-material/Circle";
+import { Button } from "@mui/material";
 
 function App() {
   const SIZE = 6;
@@ -17,6 +18,8 @@ function App() {
   const [moveOptions, setMoveOptions] = useState([]);
   const [turn, setTurn] = useState("W");
   const [winner, setWinner] = useState("");
+  const [pastMoves, setPastMoves] = useState([]);
+  const [futureMoves, setFutureMoves] = useState([]);
 
   function getAvailableMoves(i, j, isBlack) {
     // assumption: this function won't be called after a win
@@ -73,6 +76,8 @@ function App() {
   }
 
   function playMove(i, j) {
+    setPastMoves([...pastMoves, grid]);
+    setFutureMoves([]);
     const newGrid = grid.map((row) => [...row]);
     const piece = grid[selectedPiece[0]][selectedPiece[1]];
     newGrid[selectedPiece[0]][selectedPiece[1]] = "";
@@ -85,6 +90,23 @@ function App() {
     } else {
       changeTurn();
     }
+  }
+
+  function undo() {
+    if (!pastMoves) {
+      return;
+    }
+    setFutureMoves([...futureMoves, grid]);
+    setGrid(pastMoves.pop());
+    changeTurn();
+  }
+
+  function redo() {
+    if (!futureMoves) {
+      return;
+    }
+    setGrid(futureMoves.pop());
+    changeTurn();
   }
 
   function deselect() {
@@ -125,6 +147,22 @@ function App() {
             ))}
           </div>
         ))}
+      </div>
+      <div id="buttons">
+        <Button
+          variant="contained"
+          disabled={pastMoves.length === 0}
+          onClick={undo}
+        >
+          Undo
+        </Button>
+        <Button
+          variant="contained"
+          disabled={futureMoves.length === 0}
+          onClick={redo}
+        >
+          Redo
+        </Button>
       </div>
     </main>
   );
