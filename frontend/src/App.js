@@ -4,16 +4,14 @@ import Pawn from "./Pawn";
 import CircleIcon from "@mui/icons-material/Circle";
 
 function App() {
-  const SIZE = 8;
+  const SIZE = 6;
   const [grid, setGrid] = useState([
-    ["B", "B", "B", "B", "B", "B", "B", "B"],
-    ["B", "B", "B", "B", "B", "B", "B", "B"],
-    ["", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "", ""],
-    ["W", "W", "W", "W", "W", "W", "W", "W"],
-    ["W", "W", "W", "W", "W", "W", "W", "W"],
+    ["B", "B", "B", "B", "B", "B"],
+    ["B", "B", "B", "B", "B", "B"],
+    ["", "", "", "", "", ""],
+    ["", "", "", "", "", ""],
+    ["W", "W", "W", "W", "W", "W"],
+    ["W", "W", "W", "W", "W", "W"],
   ]);
   const [selectedPiece, setSelectedPiece] = useState([-1, -1]);
   const [moveOptions, setMoveOptions] = useState([]);
@@ -109,7 +107,7 @@ function App() {
         {grid.map((row, i) => (
           <div className="row" key={i}>
             {row.map((pawn, j) => (
-              <div className="square" key={i * 8 + j}>
+              <div className="square" key={i * SIZE + j}>
                 <Pawn
                   index={i * 8 + j}
                   pawn={pawn}
