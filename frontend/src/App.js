@@ -99,14 +99,47 @@ function App() {
     setFutureMoves([...futureMoves, grid]);
     setGrid(pastMoves.pop());
     changeTurn();
+    deselect();
+    setWinner("");
   }
 
   function redo() {
     if (!futureMoves) {
       return;
     }
-    setGrid(futureMoves.pop());
+    setPastMoves([...pastMoves, grid]);
+    const board = futureMoves.pop();
+    setGrid(board);
+    const previousTurn = turn;
     changeTurn();
+    deselect();
+
+    // test win condition
+    let won = false;
+    switch (previousTurn) {
+      case "W":
+        for (let i = 0; i < SIZE; i++) {
+          if (board[0][i] === "W") {
+            won = true;
+            break;
+          }
+        }
+        break;
+      case "B":
+        for (let i = 0; i < SIZE; i++) {
+          if (board[SIZE - 1][i] === "B") {
+            won = true;
+            break;
+          }
+        }
+        break;
+      default:
+        throw new Error("This turn isn't possible...");
+    }
+    if (won) {
+      setTurn(null);
+      setWinner(previousTurn);
+    }
   }
 
   function deselect() {
