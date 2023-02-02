@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/breakthrough/static/css/main.a13d2f3b.css",
+    "main.css": "/breakthrough/static/css/main.d6f4a1bd.css",
     "main.js": "/breakthrough/static/js/main.994aa2f8.js",
     "static/js/787.cda612ba.chunk.js": "/breakthrough/static/js/787.cda612ba.chunk.js",
     "index.html": "/breakthrough/index.html",
     "static/media/chess-pawn.svg": "/breakthrough/static/media/chess-pawn.bdca4b9b8fbfbe0a1b34f6b5b8940fbe.svg",
-    "main.a13d2f3b.css.map": "/breakthrough/static/css/main.a13d2f3b.css.map",
+    "main.d6f4a1bd.css.map": "/breakthrough/static/css/main.d6f4a1bd.css.map",
     "main.994aa2f8.js.map": "/breakthrough/static/js/main.994aa2f8.js.map",
     "787.cda612ba.chunk.js.map": "/breakthrough/static/js/787.cda612ba.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a13d2f3b.css",
+    "static/css/main.d6f4a1bd.css",
     "static/js/main.994aa2f8.js"
   ]
 }
