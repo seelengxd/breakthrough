@@ -117,35 +117,33 @@ function App() {
     setPastMoves([...pastMoves, grid]);
     const board = futureMoves.pop();
     setGrid(board);
-    const previousTurn = turn;
     changeTurn();
     deselect();
 
     // test win condition
-    let won = false;
-    switch (previousTurn) {
-      case "W":
-        for (let i = 0; i < SIZE; i++) {
-          if (board[0][i] === "W") {
-            won = true;
-            break;
-          }
-        }
+    checkBoardWinner(board);
+  }
+
+  function checkBoardWinner(board) {
+    let winner = null;
+
+    for (let i = 0; i < SIZE; i++) {
+      if (board[0][i] === "W") {
+        winner = "W";
         break;
-      case "B":
-        for (let i = 0; i < SIZE; i++) {
-          if (board[SIZE - 1][i] === "B") {
-            won = true;
-            break;
-          }
-        }
-        break;
-      default:
-        throw new Error("This turn isn't possible...");
+      }
     }
-    if (won) {
+
+    for (let i = 0; i < SIZE; i++) {
+      if (board[SIZE - 1][i] === "B") {
+        winner = winner ? "INVALID" : "B";
+        break;
+      }
+    }
+
+    if (winner) {
       setTurn(null);
-      setWinner(previousTurn);
+      setWinner(winner);
     }
   }
 
@@ -213,8 +211,27 @@ function App() {
         deselect();
         setFutureMoves([]);
         setPastMoves([]);
+        checkBoardWinner(newGrid);
       })
       .catch((err) => alert(err));
+  }
+
+  function invert_board(board) {
+    const new_board = board.map((row) =>
+      row.map((element) => (element === "B" ? "W" : element === "W" ? "B" : ""))
+    );
+    new_board.reverse();
+    return new_board;
+  }
+
+  function invert() {
+    const newGrid = invert_board(grid);
+    setGrid(newGrid);
+    setPastMoves(pastMoves.map(invert_board));
+    setFutureMoves(futureMoves.map(invert_board));
+    changeTurn();
+    deselect();
+    checkBoardWinner(newGrid);
   }
 
   return (
@@ -258,7 +275,7 @@ function App() {
         >
           <Redo /> Redo
         </Button>
-        <Button variant="contained" color="warning" onClick={redo}>
+        <Button variant="contained" color="warning" onClick={invert}>
           <Flip /> Invert
         </Button>
         <Button variant="contained" color="secondary" onClick={copy}>
