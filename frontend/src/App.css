@@ -81,5 +81,12 @@ img {
 
 #buttons {
   display: flex;
-  gap: 5rem;
+  justify-content: center;
+  column-gap: 3rem;
+  row-gap: 1rem;
+  flex-wrap: wrap;
+}
+
+#buttons svg {
+  margin-right: 10px;
 }

@@ -3,6 +3,13 @@ import { useState } from "react";
 import Pawn from "./Pawn";
 import CircleIcon from "@mui/icons-material/Circle";
 import { Button } from "@mui/material";
+import {
+  ContentCopy,
+  ContentPaste,
+  Flip,
+  Redo,
+  Undo,
+} from "@mui/icons-material";
 
 function App() {
   const SIZE = 6;
@@ -155,6 +162,16 @@ function App() {
     return i === 0 || i === SIZE - 1;
   }
 
+  function copy() {
+    let res = "[";
+    const stringGrid = grid.map((row) =>
+      row.map((piece) => `'${piece || " "}'`)
+    );
+    stringGrid.forEach((row) => (res += "[" + row + "],\n"));
+    res = res.slice(0, res.length - 2) + "]";
+    navigator.clipboard.writeText(res);
+  }
+
   return (
     <main>
       {winner ? <h1>Winner: {winner}</h1> : <h1>Turn: {turn}</h1>}
@@ -187,14 +204,23 @@ function App() {
           disabled={pastMoves.length === 0}
           onClick={undo}
         >
-          Undo
+          <Undo /> Undo
         </Button>
         <Button
           variant="contained"
           disabled={futureMoves.length === 0}
           onClick={redo}
         >
-          Redo
+          <Redo /> Redo
+        </Button>
+        <Button variant="contained" color="warning" onClick={redo}>
+          <Flip /> Invert
+        </Button>
+        <Button variant="contained" color="secondary" onClick={copy}>
+          <ContentCopy /> Copy
+        </Button>
+        <Button variant="contained" color="secondary" onClick={redo}>
+          <ContentPaste /> Paste
         </Button>
       </div>
     </main>
