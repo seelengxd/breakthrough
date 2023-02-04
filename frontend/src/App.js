@@ -6,7 +6,9 @@ import { Button } from "@mui/material";
 import {
   ContentCopy,
   ContentPaste,
+  DeleteForever,
   Flip,
+  People,
   Redo,
   Undo,
 } from "@mui/icons-material";
@@ -125,7 +127,7 @@ function App() {
   }
 
   function checkBoardWinner(board) {
-    let winner = null;
+    let winner = "";
 
     for (let i = 0; i < SIZE; i++) {
       if (board[0][i] === "W") {
@@ -154,6 +156,7 @@ function App() {
 
   function changeTurn() {
     setTurn(turn === "W" ? "B" : "W");
+    deselect();
   }
 
   function checkWin(i) {
@@ -234,6 +237,22 @@ function App() {
     checkBoardWinner(newGrid);
   }
 
+  function reset() {
+    setGrid([
+      ["B", "B", "B", "B", "B", "B"],
+      ["B", "B", "B", "B", "B", "B"],
+      ["", "", "", "", "", ""],
+      ["", "", "", "", "", ""],
+      ["W", "W", "W", "W", "W", "W"],
+      ["W", "W", "W", "W", "W", "W"],
+    ]);
+    setPastMoves([]);
+    setFutureMoves([]);
+    setTurn("W");
+    deselect();
+    setWinner("");
+  }
+
   return (
     <main>
       {winner ? <h1>Winner: {winner}</h1> : <h1>Turn: {turn}</h1>}
@@ -277,6 +296,12 @@ function App() {
         </Button>
         <Button variant="contained" color="warning" onClick={invert}>
           <Flip /> Invert
+        </Button>
+        <Button variant="contained" color="warning" onClick={changeTurn}>
+          <People /> Switch Turn
+        </Button>
+        <Button variant="contained" color="error" onClick={reset}>
+          <DeleteForever /> Reset
         </Button>
         <Button variant="contained" color="secondary" onClick={copy}>
           <ContentCopy /> Copy
