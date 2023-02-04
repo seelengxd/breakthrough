@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/breakthrough/static/css/main.d6f4a1bd.css",
-    "main.js": "/breakthrough/static/js/main.1a7e9c1b.js",
+    "main.css": "/breakthrough/static/css/main.884d4304.css",
+    "main.js": "/breakthrough/static/js/main.acf7aa5b.js",
     "static/js/787.cda612ba.chunk.js": "/breakthrough/static/js/787.cda612ba.chunk.js",
     "index.html": "/breakthrough/index.html",
     "static/media/chess-pawn.svg": "/breakthrough/static/media/chess-pawn.bdca4b9b8fbfbe0a1b34f6b5b8940fbe.svg",
-    "main.d6f4a1bd.css.map": "/breakthrough/static/css/main.d6f4a1bd.css.map",
-    "main.1a7e9c1b.js.map": "/breakthrough/static/js/main.1a7e9c1b.js.map",
+    "main.884d4304.css.map": "/breakthrough/static/css/main.884d4304.css.map",
+    "main.acf7aa5b.js.map": "/breakthrough/static/js/main.acf7aa5b.js.map",
     "787.cda612ba.chunk.js.map": "/breakthrough/static/js/787.cda612ba.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d6f4a1bd.css",
-    "static/js/main.1a7e9c1b.js"
+    "static/css/main.884d4304.css",
+    "static/js/main.acf7aa5b.js"
   ]
 }
