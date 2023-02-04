@@ -4,6 +4,7 @@ import Pawn from "./Pawn";
 import CircleIcon from "@mui/icons-material/Circle";
 import { Button } from "@mui/material";
 import {
+  Bolt,
   ContentCopy,
   ContentPaste,
   DeleteForever,
@@ -12,6 +13,7 @@ import {
   Redo,
   Undo,
 } from "@mui/icons-material";
+import axios from "axios";
 
 function App() {
   const SIZE = 6;
@@ -85,15 +87,19 @@ function App() {
   }
 
   function playMove(i, j) {
+    movePiece(selectedPiece, [i, j]);
+  }
+
+  function movePiece(from, to) {
     setPastMoves([...pastMoves, grid]);
     setFutureMoves([]);
     const newGrid = grid.map((row) => [...row]);
-    const piece = grid[selectedPiece[0]][selectedPiece[1]];
-    newGrid[selectedPiece[0]][selectedPiece[1]] = "";
-    newGrid[i][j] = piece;
+    const piece = grid[from[0]][from[1]];
+    newGrid[from[0]][from[1]] = "";
+    newGrid[to[0]][to[1]] = piece;
     setGrid(newGrid);
     deselect();
-    if (checkWin(i)) {
+    if (checkWin(to[0])) {
       setTurn(null);
       setWinner(piece);
     } else {
@@ -163,14 +169,18 @@ function App() {
     return i === 0 || i === SIZE - 1;
   }
 
-  function copy() {
+  function stringifyBoard(grid) {
     let res = "[";
     const stringGrid = grid.map((row) =>
       row.map((piece) => `'${piece || "_"}'`)
     );
     stringGrid.forEach((row) => (res += "[" + row + "],\n"));
     res = res.slice(0, res.length - 2) + "]";
-    navigator.clipboard.writeText(res);
+    return res;
+  }
+
+  function copy() {
+    navigator.clipboard.writeText(stringifyBoard(grid));
   }
 
   function paste() {
@@ -253,6 +263,20 @@ function App() {
     setWinner("");
   }
 
+  function getMoveFromBot() {
+    if (winner) return;
+    axios
+      .post(
+        "http://127.0.0.1:5000",
+        { board: stringifyBoard(grid), turn },
+        { withCredentials: false }
+      )
+      .then((res) => res.data)
+      .then((data) => {
+        movePiece(...data);
+      });
+  }
+
   return (
     <main>
       {winner ? <h1>Winner: {winner}</h1> : <h1>Turn: {turn}</h1>}
@@ -308,6 +332,9 @@ function App() {
         </Button>
         <Button variant="contained" color="secondary" onClick={paste}>
           <ContentPaste /> Paste
+        </Button>
+        <Button variant="contained" onClick={getMoveFromBot}>
+          <Bolt /> Bot Move
         </Button>
       </div>
     </main>
