@@ -165,11 +165,56 @@ function App() {
   function copy() {
     let res = "[";
     const stringGrid = grid.map((row) =>
-      row.map((piece) => `'${piece || " "}'`)
+      row.map((piece) => `'${piece || "_"}'`)
     );
     stringGrid.forEach((row) => (res += "[" + row + "],\n"));
     res = res.slice(0, res.length - 2) + "]";
     navigator.clipboard.writeText(res);
+  }
+
+  function paste() {
+    navigator.clipboard
+      .readText()
+      .catch((err) => alert("Give the app permission to read your clipboard!"))
+      .then((stringGrid) => {
+        console.log(stringGrid.replace(/'/g, '"'));
+        return stringGrid.replace(/'/g, '"');
+      })
+      .then((stringGrid) => JSON.parse(stringGrid))
+      .catch(() =>
+        alert(
+          "Invalid array... take a look at Copy to see what we are expecting."
+        )
+      )
+      .then((newGrid) => {
+        // Validate it is a valid grid
+        if (!Array.isArray(newGrid)) {
+          throw new Error("This is not an array.");
+        }
+        if (newGrid.length !== SIZE) {
+          throw new Error(`Grid should have ${SIZE} rows.`);
+        }
+        newGrid.forEach((row, index) => {
+          if (row.length !== SIZE) {
+            throw new Error(`Row ${index} should have ${SIZE} characters.`);
+          }
+          if (row.some((element) => !["", "B", "W", "_"].includes(element))) {
+            throw new Error(
+              `Element that is not in ['', "B", "W", " "] detected in Row ${index}`
+            );
+          }
+        });
+        setGrid(
+          newGrid.map((row) =>
+            row.map((element) => (element === "_" ? "" : element))
+          )
+        );
+        // reset everything
+        deselect();
+        setFutureMoves([]);
+        setPastMoves([]);
+      })
+      .catch((err) => alert(err));
   }
 
   return (
@@ -219,7 +264,7 @@ function App() {
         <Button variant="contained" color="secondary" onClick={copy}>
           <ContentCopy /> Copy
         </Button>
-        <Button variant="contained" color="secondary" onClick={redo}>
+        <Button variant="contained" color="secondary" onClick={paste}>
           <ContentPaste /> Paste
         </Button>
       </div>
