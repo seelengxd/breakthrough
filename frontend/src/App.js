@@ -267,7 +267,7 @@ function App() {
     if (winner) return;
     axios
       .post(
-        "http://127.0.0.1:5000",
+        "https://young-citadel-63675.herokuapp.com",
         { board: stringifyBoard(grid), turn },
         { withCredentials: false }
       )
